@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .btn {
+        @apply py-2 px-4 font-semibold rounded shadow-md focus:outline-none
+    }
+    .btn-primary {
+        @apply bg-primary text-white
+    }
+    .form-input {
+        @apply block w-full rounded border bg-gray-100 border-gray-300 py-1.5 px-3 text-gray-900 shadow-sm  placeholder:text-gray-400 right-0 outline-none sm:text-sm sm:leading-6
+    }
+}
+
+.active {
+    @apply text-primary
+}
