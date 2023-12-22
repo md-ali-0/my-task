@@ -1,4 +1,4 @@
-import { Avatar, DarkThemeToggle, Dropdown, Flowbite } from 'flowbite-react';
+import { Avatar, Dropdown, Flowbite } from 'flowbite-react';
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
@@ -9,7 +9,7 @@ import useAxios from '../../hooks/useAxios';
 
 const Header = ({ openSide, setOpenSide }) => {
     const axios = useAxios();
-    const { user, logOutUser, setIsLoading } = useAuth()
+    const { user, logOutUser, setLoading } = useAuth()
     useEffect(() => {
         window.scrollTo(0, 0);
     }, []);
@@ -19,7 +19,7 @@ const Header = ({ openSide, setOpenSide }) => {
             toast.success('LogOut success!');
         } catch (err) {
             console.log(err);
-            setIsLoading(false);
+            setLoading(false);
             toast.error('LogOut Error!');
         }
     };
@@ -56,7 +56,6 @@ const Header = ({ openSide, setOpenSide }) => {
                             </Link>
                         </div>
                         <div className="flex md:order-2">
-                            <DarkThemeToggle className="mr-2 focus:ring-0" />
                             <Link
                                 to="/"
                                 className="flex items-center justify-center rounded-lg p-2.5 text-sm text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-700 mr-2 focus:ring-0">
@@ -96,14 +95,14 @@ const Header = ({ openSide, setOpenSide }) => {
                                     </Dropdown.Header>
                                     <Link
                                         className="flex items-center justify-start py-2 px-4 text-sm text-gray-700 cursor-pointer w-full hover:bg-gray-100 focus:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 focus:outline-none dark:hover:text-white dark:focus:bg-gray-600 dark:focus:text-white"
-                                        to="/admin">
-                                        Admin
+                                        to="/dashboard">
+                                        Dashboard
                                     </Link>
                                     <Dropdown.Divider />
                                     <Link
                                         className="flex items-center justify-start py-2 px-4 text-sm text-gray-700 cursor-pointer w-full hover:bg-gray-100 focus:bg-gray-100 dark:text-gray-200 dark:hover:bg-gray-600 focus:outline-none dark:hover:text-white dark:focus:bg-gray-600 dark:focus:text-white"
-                                        to="/admin/add-post">
-                                        Add Blog
+                                        to="add-task">
+                                        Add Task
                                     </Link>
 
                                     <Dropdown.Divider />

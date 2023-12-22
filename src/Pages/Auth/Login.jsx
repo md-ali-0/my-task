@@ -4,12 +4,15 @@ import toast from "react-hot-toast";
 import { BiErrorCircle } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useAuth from "../../hooks/useAuth";
 
 const Login = () => {
     const [showPass, setShowPass] = useState(false);
     const navigate = useNavigate()
+    const location = useLocation();
+
+    let from = location?.state?.from?.pathname || "/";
     const {
         register,
         handleSubmit,
@@ -17,15 +20,24 @@ const Login = () => {
     } = useForm();
     const { createLogin } = useAuth();
     const onSubmit = async (data) => {
+        const loadingToast = toast.loading("User Sign in ... ");
         const { email, password } = data;
         try {
-            const res = await createLogin(email, password);
-            if (res?.user?.email) {
-                toast.success("Login Successfull");
-                navigate('/')
+            const userResult = await createLogin(email, password);
+            if (userResult?.user?.email) {
+                try {
+                    toast.dismiss(loadingToast);
+                    toast.success("Successfully Logged In!");
+                    return navigate(from, { replace: true });
+                    // return navigate('/');
+                } catch (error) {
+                    setLoading(false);
+                    console.log("Error image", error);
+                }
             }
         } catch (error) {
             console.log(error);
+            setLoading(false);
         }
     };
     useEffect(() => {

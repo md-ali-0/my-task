@@ -20,7 +20,7 @@ const DashboardSidebar = ({ openSide }) => {
                 <Sidebar.ItemGroup>
                     <li className="">
                         <NavLink
-                            to="/admin"
+                            to="/dashboard"
                             aria-labelledby="flowbite-sidebar-item-:r53:"
                             className="flex items-center justify-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">
                             <svg
@@ -51,7 +51,7 @@ const DashboardSidebar = ({ openSide }) => {
                     </li>
                     <Sidebar.Collapse
                         icon={HiOutlinePencilAlt}
-                        label="Blog Posts"
+                        label="Tasks"
                         renderChevronIcon={(theme, open) => {
                             const IconComponent = open
                                 ? HiOutlineMinusSm
@@ -70,7 +70,7 @@ const DashboardSidebar = ({ openSide }) => {
                         }}>
                         <li className="">
                             <NavLink
-                                to="/admin/add-post"
+                                to="/dashboard/add-task"
                                 aria-labelledby="flowbite-sidebar-item-:r21:"
                                 className="flex items-center justify-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 group w-full pl-8 transition duration-75"
                                 href="#">
@@ -78,13 +78,13 @@ const DashboardSidebar = ({ openSide }) => {
                                     data-testid="flowbite-sidebar-item-content"
                                     id="flowbite-sidebar-item-:r21:"
                                     className="px-3 flex-1 whitespace-nowrap">
-                                    Add Post
+                                    Add Task
                                 </span>
                             </NavLink>
                         </li>
                         <li className="">
                             <NavLink
-                                to="/admin/all-post"
+                                to="/dashboard/all-post"
                                 aria-labelledby="flowbite-sidebar-item-:r21:"
                                 className="flex items-center justify-center rounded-lg p-2 text-base font-normal text-gray-900 hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 group w-full pl-8 transition duration-75"
                                 href="#">

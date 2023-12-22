@@ -5,7 +5,9 @@ import MainLayout from '../Layout/Main/MainLayout';
 import Login from '../Pages/Auth/Login';
 import Register from '../Pages/Auth/Register';
 import DashHome from '../Pages/Dashboard/Home/DashHome';
+import AddTask from '../Pages/Dashboard/Task/AddTask';
 import Home from '../Pages/Home/Home';
+import PrivateRouter from './PrivateRouter';
 
 const Router = createBrowserRouter([
     {
@@ -28,11 +30,15 @@ const Router = createBrowserRouter([
     },
     {
         path: '/dashboard',
-        element: <Dashboard/>,
+        element: <PrivateRouter><Dashboard/></PrivateRouter>,
         children: [
             {
                 path: '/dashboard',
-                element: <DashHome/>
+                element: <PrivateRouter><DashHome/></PrivateRouter>
+            },
+            {
+                path:'add-task',
+                element: <PrivateRouter><AddTask/></PrivateRouter>
             }
         ]
     }

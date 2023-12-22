@@ -7,7 +7,7 @@ export const AuthContext = createContext(null);
 const AuthProvider = ({ children }) => {
     const auth = getAuth(app);
     const [user, setUser] = useState(null);
-    const [loading, setLoading]= useState(false)
+    const [loading, setLoading]= useState(true)
     const googleProvider = new GoogleAuthProvider();
 
     const googleLogin = () => {
@@ -31,18 +31,27 @@ const AuthProvider = ({ children }) => {
         setLoading(true)
         return signOut(auth)
     }
-    useEffect(()=>{
-        const unSubscribe = onAuthStateChanged(auth,(currentUser )=>{
+    useEffect(() => {
+        const unSubscribe = onAuthStateChanged(auth, (currentUser) => {
             if (currentUser) {
-                setUser(currentUser)
+                setUser(currentUser);
+                // const user = { email: currentUser.email };
+                // axios.post("/jwt", user).then((res) => {
+                //     const { token } = res.data;
+                //     localStorage.setItem("token", token);
+                //     setLoading(false);
+                // });
+                setLoading(false);
             } else {
-                setUser(null)
-                setLoading(false)
+                // localStorage.removeItem("token");
+                setUser(null);
+                setLoading(false);
             }
-        })
-        setLoading(false)
-        return ()=>unSubscribe()
-    },[])
+        });
+        return () => {
+            unSubscribe();
+        };
+    }, [auth]);
     const authInfo = {
         googleLogin,
         createUser,

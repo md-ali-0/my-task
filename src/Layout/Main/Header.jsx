@@ -16,10 +16,7 @@ const Header = () => {
     const handlelogOutUser = async () => {
         try {
             await logOutUser();
-            const logout = await axios.post("/logout");
-            if (logout.status === 200) {
-                toast.success("LogOut success!");
-            }
+            toast.success("LogOut success!");
         } catch (err) {
             console.log(err);
             setIsLoading(false);
