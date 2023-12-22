@@ -1,9 +1,10 @@
-import React from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 import Dashboard from '../Layout/Dashboard/Dashboard';
 import MainLayout from '../Layout/Main/MainLayout';
+import About from '../Pages/About/About';
 import Login from '../Pages/Auth/Login';
 import Register from '../Pages/Auth/Register';
+import Contact from '../Pages/Contact/Contact';
 import DashHome from '../Pages/Dashboard/Home/DashHome';
 import AddTask from '../Pages/Dashboard/Task/AddTask';
 import Home from '../Pages/Home/Home';
@@ -17,6 +18,14 @@ const Router = createBrowserRouter([
             {
                 path: '/',
                 element: <Home/>
+            },
+            {
+                path: '/about',
+                element: <About/>
+            },
+            {
+                path: '/contact',
+                element: <Contact/>
             },
             {
                 path: '/login',

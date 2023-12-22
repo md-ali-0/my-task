@@ -1,5 +1,9 @@
+import AOS from 'aos';
+import 'aos/dist/aos.css'; // You can also use <link> for styles
 import { Link } from "react-router-dom";
 import banner from "../../assets/banner.png";
+// ..
+AOS.init();
 
 const Banner = () => {
     return (
@@ -21,7 +25,7 @@ const Banner = () => {
                     </Link>
                 </div>
             </div>
-            <div>
+            <div data-aos="fade-zoom-in" data-aos-offset="300" data-aos-easing="ease-in-sine" data-aos-duration="1000">
                 <img className="w-[480px]" src={banner} alt="" />
             </div>
         </div>
