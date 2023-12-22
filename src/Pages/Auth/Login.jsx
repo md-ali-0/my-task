@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BiErrorCircle } from "react-icons/bi";
-import { FcGoogle } from "react-icons/fc";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import SocialLogin from "../../components/SocialLogin";
 import useAuth from "../../hooks/useAuth";
 
 const Login = () => {
@@ -18,7 +18,7 @@ const Login = () => {
         handleSubmit,
         formState: { errors },
     } = useForm();
-    const { createLogin } = useAuth();
+    const { createLogin,setLoading } = useAuth();
     const onSubmit = async (data) => {
         const loadingToast = toast.loading("User Sign in ... ");
         const { email, password } = data;
@@ -145,18 +145,7 @@ const Login = () => {
                         <p className="text-center text-gray-700 text-sm pb-3">
                             Or
                         </p>
-                        <div className="space-y-3">
-                            <button
-                                // onClick={handleGoogleLogin}
-                                className="w-full border border-gray-200 focus:outline-none focus:ring-0 font-medium rounded-lg text-sm px-5 py-2 text-center flex items-center justify-center gap-2"
-                            >
-                                {" "}
-                                <span className="text-lg ">
-                                    <FcGoogle></FcGoogle>
-                                </span>{" "}
-                                Login With Google
-                            </button>
-                        </div>
+                        <SocialLogin/>
                     </div>
                     <p className="text-sm text-center font-light text-gray-500">
                         Don’t have an account yet?{" "}

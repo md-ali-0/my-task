@@ -1,3 +1,4 @@
+import { useDrag, useDrop } from "react-dnd";
 import toast from "react-hot-toast";
 import { TiDelete } from "react-icons/ti";
 import Swal from "sweetalert2";
@@ -24,6 +25,14 @@ const AllTasks = ({ todo, ongoing, completed, refetch }) => {
 export default AllTasks;
 
 const Section = ({ status, todo, ongoing, completed, refetch }) => {
+    const [{ isOver }, drop] = useDrop(() => ({
+        accept: "task",
+        drop: (item) => addItemToSection(item),
+        collect: (monitor) => ({
+            isOver: !!monitor.isOver(),
+        }),
+    }));
+
     let text = "Todo";
     let bg = "bg-slate-800";
     let color = "text-slate-800";
@@ -42,6 +51,15 @@ const Section = ({ status, todo, ongoing, completed, refetch }) => {
         taskToMap = completed;
     }
     const axios = useAxios();
+    const addItemToSection = async(item)=>{
+        try {
+            await axios.put(`/update-task/${item.id}`,{'status':status})
+            toast.success(`Task ${status}`)
+            refetch()
+        } catch (error) {
+            console.log(error);
+        }
+    }
     const handleDelete = async (id) => {
         try {
             Swal.fire({
@@ -69,7 +87,7 @@ const Section = ({ status, todo, ongoing, completed, refetch }) => {
         }
     };
     return (
-        <div>
+        <div ref={drop} className={`${isOver?'bg-slate-200 rounded-md':''}`}>
             <Header
                 text={text}
                 bg={bg}
@@ -107,8 +125,20 @@ const Header = ({ text, bg, color, count }) => {
 };
 
 const TaskItem = ({ task, handleDelete }) => {
+    const [{ isDragging }, drag] = useDrag(() => ({
+        type: "task",
+        item: { id: task._id },
+        collect: (monitor) => ({
+            isDragging: !!monitor.isDragging(),
+        }),
+    }));
     return (
-        <div className="flex justify-between items-center border border-gray-300 rounded-lg my-1">
+        <div
+            ref={drag}
+            className={`flex justify-between ${
+                isDragging ? "opacity-50" : "opacity-100"
+            } items-center cursor-move border border-gray-300 rounded-lg my-1`}
+        >
             <div className={`flex flex-col py-1.5 px-2.5`}>
                 <h3 className="block text-secondary text-md">{task.title}</h3>
                 <p>{task.description.split(" ").slice(0, 8).join(" ")}</p>

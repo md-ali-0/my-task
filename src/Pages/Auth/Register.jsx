@@ -2,16 +2,16 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BiErrorCircle } from "react-icons/bi";
-import { FcGoogle } from "react-icons/fc";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 import { Link, useNavigate } from "react-router-dom";
 import uploadImage from "../../Utils/useImageUpload";
+import SocialLogin from "../../components/SocialLogin";
 import useAuth from "../../hooks/useAuth";
 
 const Register = () => {
     const [showPass, setShowPass] = useState(false);
     const navigate = useNavigate();
-    const { createUser, updateUserProfile, googleLogin, logOutUser } = useAuth();
+    const { createUser, updateUserProfile, logOutUser } = useAuth();
     const {
         register,
         handleSubmit,
@@ -38,10 +38,6 @@ const Register = () => {
             toast.dismiss(loadingToast);
             toast.success(error.code);
         }
-    };
-    const handleGoogleLogin = async () => {
-        const res = await googleLogin();
-        console.log(res.user);
     };
     useEffect(() => {
         window.scrollTo(0, 0);
@@ -224,18 +220,7 @@ const Register = () => {
                         <p className="text-center text-gray-700 text-sm pb-3">
                             Or
                         </p>
-                        <div className="space-y-3">
-                            <button
-                                onClick={handleGoogleLogin}
-                                className="w-full border border-gray-200 focus:outline-none focus:ring-0 font-medium rounded-lg text-sm px-5 py-2 text-center flex items-center justify-center gap-2"
-                            >
-                                {" "}
-                                <span className="text-lg ">
-                                    <FcGoogle></FcGoogle>
-                                </span>{" "}
-                                Sign Up With Google
-                            </button>
-                        </div>
+                        <SocialLogin/>
                     </div>
                     <p className="text-sm text-center font-light text-gray-500">
                         Already Have an Account?{" "}
