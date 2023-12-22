@@ -29,7 +29,7 @@ const Header = () => {
     return (
         <header className="py-2">
             <Container>
-                <Navbar className="bg-white dark:bg-white relative" container="true">
+                <Navbar className="relative" container="true">
                     <Link className="flex items-center" to="/">
                         <img
                             src={logo}
@@ -40,7 +40,7 @@ const Header = () => {
                     <div className="flex md:order-2">
                         {user ? (
                             <Dropdown
-                                className="z-50 dark:bg-white border dark:border-gray-100 text-secondary"
+                                className="z-50 text-secondary"
                                 arrowIcon={false}
                                 inline
                                 label={
@@ -67,7 +67,7 @@ const Header = () => {
                                 </Link>
                                 <Dropdown.Divider />
                                 <Dropdown.Divider />
-                                <Dropdown.Item className="dark:text-secondary" onClick={handlelogOutUser}>
+                                <Dropdown.Item onClick={handlelogOutUser}>
                                     Sign out
                                 </Dropdown.Item>
                             </Dropdown>
