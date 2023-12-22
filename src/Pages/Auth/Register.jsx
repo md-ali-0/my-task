@@ -14,7 +14,6 @@ const Register = () => {
     const { createUser, updateUserProfile, googleLogin, logOutUser } = useAuth();
     const {
         register,
-        reset,
         handleSubmit,
         formState: { errors },
     } = useForm();
@@ -44,6 +43,9 @@ const Register = () => {
         const res = await googleLogin();
         console.log(res.user);
     };
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     return (
         <div className="flex flex-col items-center justify-center px-5 py-5 mx-auto my-10 lg:py-0">
             <div className="w-full bg-white border border-gray-200 rounded-lg md:mt-0 sm:max-w-md xl:p-0">

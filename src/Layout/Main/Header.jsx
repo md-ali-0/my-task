@@ -7,19 +7,19 @@ const Menus = () => {
         <>
             <NavLink
                 to="/"
-                className="text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4"
+                className="text-gray-800 text-sm font-semibold hover:text-primary mr-4"
             >
                 Home
             </NavLink>
             <NavLink
                 to="about"
-                className="text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4"
+                className="text-gray-800 text-sm font-semibold hover:text-primary mr-4"
             >
                 About
             </NavLink>
             <NavLink
                 to="/Contact"
-                className="text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4"
+                className="text-gray-800 text-sm font-semibold hover:text-primary mr-4"
             >
                 Contact
             </NavLink>
@@ -43,13 +43,13 @@ const Header = () => {
                         <div className="hidden sm:flex sm:items-center">
                             <Link
                                 to='/login'
-                                className="text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4"
+                                className="text-gray-800 text-sm font-semibold hover:text-primary mr-4"
                             >
                                 Sign in
                             </Link>
                             <Link
                                 to='/register'
-                                className="text-gray-800 text-sm font-semibold border px-4 py-2 rounded-lg hover:text-purple-600 hover:border-purple-600"
+                                className="text-gray-800 text-sm font-semibold border px-4 py-2 rounded-lg hover:text-primary hover:border-primary"
                             >
                                 Sign up
                             </Link>
@@ -64,13 +64,13 @@ const Header = () => {
                             <div className="flex justify-between items-center border-t-2 pt-2">
                                 <Link
                                     to='/login'
-                                    className="text-gray-800 text-sm font-semibold hover:text-purple-600 mr-4"
+                                    className="text-gray-800 text-sm font-semibold hover:text-primary mr-4"
                                 >
                                     Sign in
                                 </Link>
                                 <Link
                                     to='/register'
-                                    className="text-gray-800 text-sm font-semibold border px-4 py-1 rounded-lg hover:text-purple-600 hover:border-purple-600"
+                                    className="text-gray-800 text-sm font-semibold border px-4 py-1 rounded-lg hover:text-primary hover:border-primary"
                                 >
                                     Sign up
                                 </Link>

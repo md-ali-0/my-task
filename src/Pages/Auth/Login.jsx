@@ -1,21 +1,50 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
+import { BiErrorCircle } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
 import { FiEye, FiEyeOff } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
 
 const Login = () => {
     const [showPass, setShowPass] = useState(false);
+    const navigate = useNavigate()
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
+    const { createLogin } = useAuth();
+    const onSubmit = async (data) => {
+        const { email, password } = data;
+        try {
+            const res = await createLogin(email, password);
+            if (res?.user?.email) {
+                toast.success("Login Successfull");
+                navigate('/')
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    };
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
     return (
         <div className="flex flex-col items-center justify-center px-5 py-5 mx-auto my-10 lg:py-0">
             <div className="w-full bg-white border border-gray-200 rounded-lg md:mt-0 sm:max-w-md xl:p-0">
                 <div className="p-6 space-y-4 md:space-y-5 sm:p-8">
                     <div className="text-center">
-                        <h1 class="text-xl font-semibold">Welcome back</h1>
-                        <small class="text-gray-400">
+                        <h1 className="text-xl font-semibold">Welcome back</h1>
+                        <small className="text-gray-400">
                             Welcome back! Please enter your details
                         </small>
                     </div>
-                    <form className="space-y-4 md:space-y-6">
+                    <form
+                        className="space-y-4 md:space-y-6"
+                        onSubmit={handleSubmit(onSubmit)}
+                    >
                         <div>
                             <label
                                 htmlFor="email"
@@ -25,12 +54,26 @@ const Login = () => {
                             </label>
                             <input
                                 type="email"
-                                name="email"
                                 id="email"
                                 className="form-input"
                                 placeholder="Enter Email Address"
-                                required
+                                {...register("email", {
+                                    required: "Email is required.",
+                                    pattern: {
+                                        value: /^[\w-\\.]+@([\w-]+\.)+[\w-]{2,4}$/,
+                                        message: "Invalid email format.",
+                                    },
+                                })}
                             />
+                            {errors.email && (
+                                <span className="text-center text-red-500 flex items-center gap-1">
+                                    <BiErrorCircle
+                                        className="inline-block ml-2"
+                                        size={15}
+                                    />{" "}
+                                    {errors.email?.message}
+                                </span>
+                            )}
                         </div>
                         <div className="relative">
                             <label
@@ -41,11 +84,31 @@ const Login = () => {
                             </label>
                             <input
                                 type={showPass ? "text" : "password"}
-                                name="password"
                                 id="password"
                                 className="form-input"
-                                required
+                                {...register("password", {
+                                    required: "Password is required.",
+                                    minLength: {
+                                        value: 6,
+                                        message:
+                                            "Password must be at least 6 characters long.",
+                                    },
+                                    pattern: {
+                                        value: /(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^A-Za-z0-9])/,
+                                        message:
+                                            "Invalid password: no capitals, specials or numbers.",
+                                    },
+                                })}
                             />
+                            {errors.password && (
+                                <span className="text-center text-red-500 flex items-center gap-1">
+                                    <BiErrorCircle
+                                        className="inline-block ml-2"
+                                        size={15}
+                                    />
+                                    {errors.password?.message}
+                                </span>
+                            )}
                             <span
                                 onClick={() => {
                                     !setShowPass(!showPass);
