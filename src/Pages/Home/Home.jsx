@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import Container from "../../components/Container";
 import Banner from "./Banner";
+import Features from "./Features";
+import TargetAudience from "./TargetAudience";
 
 const Home = () => {
     useEffect(() => {
@@ -11,6 +13,8 @@ const Home = () => {
         <main>
             <Container>
                 <Banner />
+                <Features/>
+                <TargetAudience/>
             </Container>
         </main>
     );

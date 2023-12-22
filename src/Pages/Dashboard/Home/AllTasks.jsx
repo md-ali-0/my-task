@@ -141,6 +141,7 @@ const TaskItem = ({ task, handleDelete }) => {
         >
             <div className={`flex flex-col py-1.5 px-2.5`}>
                 <h3 className="block text-secondary text-md">{task.title}</h3>
+                <h2 className={`${task.priority=='high'&& 'bg-[#D94810]'} ${task.priority=='moderate'&& 'bg-[#458ae4]'} ${task.priority=='low'&& 'bg-[#b9e2d8]'} w-fit text-white text-xs px-2 py-0.5 my-0.5 rounded`}>{task.priority.toUpperCase()}</h2>
                 <p>{task.description.split(" ").slice(0, 8).join(" ")}</p>
             </div>
             <div className="w-10">
