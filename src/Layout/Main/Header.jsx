@@ -1,84 +1,128 @@
-import { useState } from "react";
-import { FaBars } from "react-icons/fa";
+import { Avatar, Dropdown, Navbar } from "flowbite-react";
+import { useEffect } from "react";
+import toast from "react-hot-toast";
 import { Link, NavLink } from "react-router-dom";
 import logo from "../../assets/logo.png";
-const Menus = () => {
-    return (
-        <>
-            <NavLink
-                to="/"
-                className="text-gray-800 text-sm font-semibold hover:text-primary mr-4"
-            >
-                Home
-            </NavLink>
-            <NavLink
-                to="about"
-                className="text-gray-800 text-sm font-semibold hover:text-primary mr-4"
-            >
-                About
-            </NavLink>
-            <NavLink
-                to="/Contact"
-                className="text-gray-800 text-sm font-semibold hover:text-primary mr-4"
-            >
-                Contact
-            </NavLink>
-        </>
-    );
-};
+import Container from "../../components/Container";
+import useAuth from "../../hooks/useAuth";
+import useAxios from "../../hooks/useAxios";
+
 const Header = () => {
-    const [open, setOpen] = useState(false);
+    const axios = useAxios();
+    const { user, logOutUser, setIsLoading } = useAuth();
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
+    const handlelogOutUser = async () => {
+        try {
+            await logOutUser();
+            const logout = await axios.post("/logout");
+            if (logout.status === 200) {
+                toast.success("LogOut success!");
+            }
+        } catch (err) {
+            console.log(err);
+            setIsLoading(false);
+            toast.error("LogOut Error!");
+        }
+    };
     return (
-        // Header
-        <header className="bg-gray-100 font-sans w-full m-0">
-            <div className="bg-white shadow">
-                <div className="container mx-auto px-4">
-                    <div className="flex items-center justify-between py-4">
-                        <div>
-                            <img className="w-32" src={logo} alt="" />
-                        </div>
-                        <div className="hidden sm:flex sm:items-center">
-                            <Menus/>
-                        </div>
-                        <div className="hidden sm:flex sm:items-center">
-                            <Link
-                                to='/login'
-                                className="text-gray-800 text-sm font-semibold hover:text-primary mr-4"
+        <header className="py-2">
+            <Container>
+                <Navbar className="bg-white dark:bg-white relative" container="true">
+                    <Link className="flex items-center" to="/">
+                        <img
+                            src={logo}
+                            className="mr-3 h-6 md:h-9"
+                            alt="MyTask Logo"
+                        />
+                    </Link>
+                    <div className="flex md:order-2">
+                        {user ? (
+                            <Dropdown
+                                className="z-50 dark:bg-white border dark:border-gray-100 text-secondary"
+                                arrowIcon={false}
+                                inline
+                                label={
+                                    <Avatar
+                                        alt="User settings"
+                                        img={user?.photoURL}
+                                        rounded
+                                    />
+                                }
                             >
-                                Sign in
-                            </Link>
-                            <Link
-                                to='/register'
-                                className="text-gray-800 text-sm font-semibold border px-4 py-2 rounded-lg hover:text-primary hover:border-primary"
-                            >
-                                Sign up
-                            </Link>
-                        </div>
-                        <div onClick={()=>setOpen(!open)} className="sm:hidden cursor-pointer">
-                            <FaBars />
-                        </div>
-                    </div>
-                    <div className={open?'block sm:hidden bg-white border-t-2 py-2':'hidden'}>
-                        <div className="flex flex-col">
-                            <Menus/>
-                            <div className="flex justify-between items-center border-t-2 pt-2">
+                                <Dropdown.Header>
+                                    <span className="block text-secondary text-sm">
+                                        {user?.displayName}
+                                    </span>
+                                    <span className="block text-secondary truncate text-sm font-medium">
+                                        {user?.email}
+                                    </span>
+                                </Dropdown.Header>
                                 <Link
-                                    to='/login'
-                                    className="text-gray-800 text-sm font-semibold hover:text-primary mr-4"
+                                    className="flex items-center justify-start py-2 px-4 text-sm text-gray-700 cursor-pointer w-full hover:bg-gray-100 focus:bg-gray-100"
+                                    to="/dashboard"
                                 >
-                                    Sign in
+                                    Dashboard
+                                </Link>
+                                <Dropdown.Divider />
+                                <Dropdown.Divider />
+                                <Dropdown.Item className="dark:text-secondary" onClick={handlelogOutUser}>
+                                    Sign out
+                                </Dropdown.Item>
+                            </Dropdown>
+                        ) : (
+                            <div className="flex justify-center gap-2">
+                                <Link
+                                    to="/login"
+                                    className="inline-flex text-white bg-primary border-0 py-1.5 px-3 focus:outline-none hover:bg-blue-500 rounded text-md"
+                                >
+                                    Login
                                 </Link>
                                 <Link
-                                    to='/register'
-                                    className="text-gray-800 text-sm font-semibold border px-4 py-1 rounded-lg hover:text-primary hover:border-primary"
+                                    to="/register"
+                                    className="inline-flex text-gray-700 bg-gray-100 border-0 py-1.5 px-3 focus:outline-none hover:bg-gray-200 rounded text-md"
                                 >
-                                    Sign up
+                                    Register
                                 </Link>
                             </div>
-                        </div>
+                        )}
+                        <Navbar.Toggle />
                     </div>
-                </div>
-            </div>
+                    <Navbar.Collapse>
+                        <NavLink
+                            to="/"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "block py-2 pr-4 pl-3 md:p-0 bg-primary text-white md:bg-transparent md:text-primary"
+                                    : "block py-2 pr-4 pl-3 md:p-0 text-gray-600 md:bg-transparent"
+                            }
+                        >
+                            Home
+                        </NavLink>
+                        <NavLink
+                            to="/about"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "block py-2 pr-4 pl-3 md:p-0 bg-primary text-white md:bg-transparent md:text-primary"
+                                    : "block py-2 pr-4 pl-3 md:p-0 text-gray-600 md:bg-transparent"
+                            }
+                        >
+                            About
+                        </NavLink>
+                        <NavLink
+                            to="/contact"
+                            className={({ isActive }) =>
+                                isActive
+                                    ? "block py-2 pr-4 pl-3 md:p-0 bg-primary text-white md:bg-transparent md:text-primary"
+                                    : "block py-2 pr-4 pl-3 md:p-0 text-gray-600 md:bg-transparent"
+                            }
+                        >
+                            Contact
+                        </NavLink>
+                    </Navbar.Collapse>
+                </Navbar>
+            </Container>
         </header>
     );
 };
