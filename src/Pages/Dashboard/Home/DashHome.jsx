@@ -1,4 +1,29 @@
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
+import useAuth from "../../../hooks/useAuth";
+import useAxios from "../../../hooks/useAxios";
+import AllTasks from "./AllTasks";
+
 const DashHome = () => {
+    const [todo, setTodo] = useState([]);
+    const [ongoing, setOngoing] = useState([]);
+    const [completed, setCompleted] = useState([]);
+
+    const { user } = useAuth();
+    const axios = useAxios();
+    const { data: allTasks = [], refetch } = useQuery({
+        enabled: !!user,
+        queryKey: ["allTasks"],
+        queryFn: async () => {
+            const { data } = await axios.get(`/all-task?email=${user?.email}`);
+            return data;
+        },
+    });
+    useEffect(() => {
+        setTodo(allTasks.filter((task) => task.status === "todo"));
+        setOngoing(allTasks.filter((task) => task.status === "ongoing"));
+        setCompleted(allTasks.filter((task) => task.status === "completed"));
+    }, [allTasks]);
     return (
         <div className="p-4 sm:ml-64">
             <div className="p-4 border-gray-200 rounded-lg dark:border-gray-700 mt-14">
@@ -15,7 +40,8 @@ const DashHome = () => {
                                 className="w-6 h-6 text-white"
                                 height="1em"
                                 width="1em"
-                                xmlns="http://www.w3.org/2000/svg">
+                                xmlns="http://www.w3.org/2000/svg"
+                            >
                                 <path
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
@@ -25,7 +51,7 @@ const DashHome = () => {
                         </div>
                         <div className="p-4 text-right">
                             <p className="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600 ">
-                                Task
+                                {allTasks.length} Task
                             </p>
                             <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
                                 {/* {total?.data?.postCount} */}
@@ -44,7 +70,8 @@ const DashHome = () => {
                                 viewBox="0 0 24 24"
                                 fill="currentColor"
                                 aria-hidden="true"
-                                className="w-6 h-6 text-white">
+                                className="w-6 h-6 text-white"
+                            >
                                 <path
                                     fillRule="evenodd"
                                     d="M7.5 6a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM3.751 20.105a8.25 8.25 0 0116.498 0 .75.75 0 01-.437.695A18.683 18.683 0 0112 22.5c-2.786 0-5.433-.608-7.812-1.7a.75.75 0 01-.437-.695z"
@@ -54,7 +81,7 @@ const DashHome = () => {
                         </div>
                         <div className="p-4 text-right">
                             <p className="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
-                                To-do
+                                {todo.length} To-do
                             </p>
                             <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
                                 {/* {total?.data?.commentCount} */}
@@ -73,13 +100,14 @@ const DashHome = () => {
                                 viewBox="0 0 24 24"
                                 fill="currentColor"
                                 aria-hidden="true"
-                                className="w-6 h-6 text-white">
+                                className="w-6 h-6 text-white"
+                            >
                                 <path d="M6.25 6.375a4.125 4.125 0 118.25 0 4.125 4.125 0 01-8.25 0zM3.25 19.125a7.125 7.125 0 0114.25 0v.003l-.001.119a.75.75 0 01-.363.63 13.067 13.067 0 01-6.761 1.873c-2.472 0-4.786-.684-6.76-1.873a.75.75 0 01-.364-.63l-.001-.122zM19.75 7.5a.75.75 0 00-1.5 0v2.25H16a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0v-2.25H22a.75.75 0 000-1.5h-2.25V7.5z" />
                             </svg>
                         </div>
                         <div className="p-4 text-right">
                             <p className="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
-                                Ongoing
+                                {ongoing.length} Ongoing
                             </p>
                             <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
                                 {/* {total?.data?.userCount} */}
@@ -98,13 +126,14 @@ const DashHome = () => {
                                 viewBox="0 0 24 24"
                                 fill="currentColor"
                                 aria-hidden="true"
-                                className="w-6 h-6 text-white">
+                                className="w-6 h-6 text-white"
+                            >
                                 <path d="M18.375 2.25c-1.035 0-1.875.84-1.875 1.875v15.75c0 1.035.84 1.875 1.875 1.875h.75c1.035 0 1.875-.84 1.875-1.875V4.125c0-1.036-.84-1.875-1.875-1.875h-.75zM9.75 8.625c0-1.036.84-1.875 1.875-1.875h.75c1.036 0 1.875.84 1.875 1.875v11.25c0 1.035-.84 1.875-1.875 1.875h-.75a1.875 1.875 0 01-1.875-1.875V8.625zM3 13.125c0-1.036.84-1.875 1.875-1.875h.75c1.036 0 1.875.84 1.875 1.875v6.75c0 1.035-.84 1.875-1.875 1.875h-.75A1.875 1.875 0 013 19.875v-6.75z" />
                             </svg>
                         </div>
                         <div className="p-4 text-right">
                             <p className="block antialiased font-sans text-sm leading-normal font-normal text-blue-gray-600">
-                                Completed
+                                {completed.length} Completed
                             </p>
                             <h4 className="block antialiased tracking-normal font-sans text-2xl font-semibold leading-snug text-blue-gray-900">
                                 {/* {total?.data?.categoryCount} */}
@@ -117,6 +146,7 @@ const DashHome = () => {
                         </div>
                     </div>
                 </div>
+                <AllTasks todo={todo} ongoing={ongoing} completed={completed} refetch={refetch}/>
             </div>
         </div>
     );

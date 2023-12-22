@@ -1,19 +1,21 @@
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { BiErrorCircle } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import useAxios from "../../../hooks/useAxios";
 
 const AddTask = () => {
     const { user } = useAuth();
     const axios = useAxios();
+    const navigate = useNavigate()
     const {
         register,
         handleSubmit,
         reset,
         formState: { errors },
     } = useForm();
-
+    
     const onSubmit = async (data) => {
         const newTask = { ...data, status: "todo", createdBy: user?.email };
         const loadingToast = toast.loading("Creating Task ... !!");
@@ -22,6 +24,7 @@ const AddTask = () => {
             if (data?.acknowledged) {
                 toast.dismiss(loadingToast);
                 toast.success("Task Successfully Added");
+                navigate('/dashboard')
             }
         } catch (error) {
             toast.dismiss(loadingToast);
@@ -36,8 +39,8 @@ const AddTask = () => {
                     className="border-gray-200 p-5 rounded-lg bg-white dark:bg-gray-800 dark:border-gray-700"
                     onSubmit={handleSubmit(onSubmit)}
                 >
-                    <div className="grid grid-cols-1 md:grid-cols-5 gap-5">
-                        <div className="md:col-span-3">
+                    <div className="grid grid-cols-1 md:grid-cols-6 gap-5">
+                        <div className="md:col-span-4">
                             <div className="space-y-2 py-2">
                                 <label
                                     htmlFor="title"
